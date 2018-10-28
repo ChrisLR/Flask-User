@@ -17,6 +17,9 @@ Flask-SQLAlchemy==2.2
 MongoEngine<0.11    # 0.11.0 dropped support for python 2.6
 Flask-MongoEngine==0.9.3
 
+# PYODM DB testing
+pymodm
+
 # EmailAdapter testing
 sendgrid==5.2.0
 Flask-Sendmail==0.1

@@ -4,7 +4,7 @@
 # Author: Ling Thio <ling.thio@gmail.com>
 # Copyright (c) 2013 Ling Thio
 
-from .db_adapters import PynamoDbAdapter, DynamoDbAdapter, MongoDbAdapter, SQLDbAdapter
+from .db_adapters import PynamoDbAdapter, DynamoDbAdapter, MongoDbAdapter, SQLDbAdapter, PYMODMDbAdapter
 from flask_user import current_user, ConfigError
 
 class DBManager(object):
@@ -68,6 +68,16 @@ class DBManager(object):
 
                 if issubclass(UserClass, Model):
                     self.db_adapter = PynamoDbAdapter(app)
+            except ImportError:
+                pass # Ignore ImportErrors
+
+        # Check if DB is a PYODM connection instance
+        if self.db_adapter is None:
+            try:
+                from pymodm.connection import _get_db
+
+                if self.db == _get_db():
+                    self.db_adapter = PYMODMDbAdapter(app)
             except ImportError:
                 pass # Ignore ImportErrors
 
